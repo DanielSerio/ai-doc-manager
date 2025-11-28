@@ -1,9 +1,9 @@
-import { initTRPC } from '@trpc/server';
 import { rulesRouter } from './rules';
 import { generalDocumentsRouter } from './general-documents';
 import { ruleDocumentsRouter } from './rule-documents';
+import { t, publicProcedure } from './init';
 
-export const t = initTRPC.create();
+export { t, publicProcedure };
 
 export const appRouter = t.router({
   rules: rulesRouter,

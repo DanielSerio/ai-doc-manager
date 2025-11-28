@@ -126,7 +126,9 @@ export const ruleDocumentsRouter = t.router({
     }),
   getOne: publicProcedure
     .input(z.object({ id: z.number().int().positive() }))
-    .output(ruleDocumentsSelectSchema)
+    .output(ruleDocumentsSelectSchema.extend({
+      rules: z.array(ruleDocumentRulesSelectSchema),
+    }))
     .query(async ({ input }) => {
       const { id } = input;
 

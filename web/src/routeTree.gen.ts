@@ -9,44 +9,58 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RuleDocumentsRouteRouteImport } from './routes/rule-documents/route'
+import { Route as GeneralDocumentsRouteRouteImport } from './routes/general-documents/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RuleDocumentsIndexRouteImport } from './routes/rule-documents/index'
 import { Route as GeneralDocumentsIndexRouteImport } from './routes/general-documents/index'
 import { Route as RuleDocumentsIdRouteImport } from './routes/rule-documents/$id'
 import { Route as GeneralDocumentsIdRouteImport } from './routes/general-documents/$id'
 
+const RuleDocumentsRouteRoute = RuleDocumentsRouteRouteImport.update({
+  id: '/rule-documents',
+  path: '/rule-documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GeneralDocumentsRouteRoute = GeneralDocumentsRouteRouteImport.update({
+  id: '/general-documents',
+  path: '/general-documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RuleDocumentsIndexRoute = RuleDocumentsIndexRouteImport.update({
-  id: '/rule-documents/',
-  path: '/rule-documents/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => RuleDocumentsRouteRoute,
 } as any)
 const GeneralDocumentsIndexRoute = GeneralDocumentsIndexRouteImport.update({
-  id: '/general-documents/',
-  path: '/general-documents/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => GeneralDocumentsRouteRoute,
 } as any)
 const RuleDocumentsIdRoute = RuleDocumentsIdRouteImport.update({
-  id: '/rule-documents/$id',
-  path: '/rule-documents/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => RuleDocumentsRouteRoute,
 } as any)
 const GeneralDocumentsIdRoute = GeneralDocumentsIdRouteImport.update({
-  id: '/general-documents/$id',
-  path: '/general-documents/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => GeneralDocumentsRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/general-documents': typeof GeneralDocumentsRouteRouteWithChildren
+  '/rule-documents': typeof RuleDocumentsRouteRouteWithChildren
   '/general-documents/$id': typeof GeneralDocumentsIdRoute
   '/rule-documents/$id': typeof RuleDocumentsIdRoute
-  '/general-documents': typeof GeneralDocumentsIndexRoute
-  '/rule-documents': typeof RuleDocumentsIndexRoute
+  '/general-documents/': typeof GeneralDocumentsIndexRoute
+  '/rule-documents/': typeof RuleDocumentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -58,6 +72,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/general-documents': typeof GeneralDocumentsRouteRouteWithChildren
+  '/rule-documents': typeof RuleDocumentsRouteRouteWithChildren
   '/general-documents/$id': typeof GeneralDocumentsIdRoute
   '/rule-documents/$id': typeof RuleDocumentsIdRoute
   '/general-documents/': typeof GeneralDocumentsIndexRoute
@@ -67,10 +83,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/general-documents/$id'
-    | '/rule-documents/$id'
     | '/general-documents'
     | '/rule-documents'
+    | '/general-documents/$id'
+    | '/rule-documents/$id'
+    | '/general-documents/'
+    | '/rule-documents/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -81,6 +99,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/general-documents'
+    | '/rule-documents'
     | '/general-documents/$id'
     | '/rule-documents/$id'
     | '/general-documents/'
@@ -89,14 +109,26 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  GeneralDocumentsIdRoute: typeof GeneralDocumentsIdRoute
-  RuleDocumentsIdRoute: typeof RuleDocumentsIdRoute
-  GeneralDocumentsIndexRoute: typeof GeneralDocumentsIndexRoute
-  RuleDocumentsIndexRoute: typeof RuleDocumentsIndexRoute
+  GeneralDocumentsRouteRoute: typeof GeneralDocumentsRouteRouteWithChildren
+  RuleDocumentsRouteRoute: typeof RuleDocumentsRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/rule-documents': {
+      id: '/rule-documents'
+      path: '/rule-documents'
+      fullPath: '/rule-documents'
+      preLoaderRoute: typeof RuleDocumentsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/general-documents': {
+      id: '/general-documents'
+      path: '/general-documents'
+      fullPath: '/general-documents'
+      preLoaderRoute: typeof GeneralDocumentsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -106,41 +138,67 @@ declare module '@tanstack/react-router' {
     }
     '/rule-documents/': {
       id: '/rule-documents/'
-      path: '/rule-documents'
-      fullPath: '/rule-documents'
+      path: '/'
+      fullPath: '/rule-documents/'
       preLoaderRoute: typeof RuleDocumentsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof RuleDocumentsRouteRoute
     }
     '/general-documents/': {
       id: '/general-documents/'
-      path: '/general-documents'
-      fullPath: '/general-documents'
+      path: '/'
+      fullPath: '/general-documents/'
       preLoaderRoute: typeof GeneralDocumentsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof GeneralDocumentsRouteRoute
     }
     '/rule-documents/$id': {
       id: '/rule-documents/$id'
-      path: '/rule-documents/$id'
+      path: '/$id'
       fullPath: '/rule-documents/$id'
       preLoaderRoute: typeof RuleDocumentsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof RuleDocumentsRouteRoute
     }
     '/general-documents/$id': {
       id: '/general-documents/$id'
-      path: '/general-documents/$id'
+      path: '/$id'
       fullPath: '/general-documents/$id'
       preLoaderRoute: typeof GeneralDocumentsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof GeneralDocumentsRouteRoute
     }
   }
 }
 
+interface GeneralDocumentsRouteRouteChildren {
+  GeneralDocumentsIdRoute: typeof GeneralDocumentsIdRoute
+  GeneralDocumentsIndexRoute: typeof GeneralDocumentsIndexRoute
+}
+
+const GeneralDocumentsRouteRouteChildren: GeneralDocumentsRouteRouteChildren = {
+  GeneralDocumentsIdRoute: GeneralDocumentsIdRoute,
+  GeneralDocumentsIndexRoute: GeneralDocumentsIndexRoute,
+}
+
+const GeneralDocumentsRouteRouteWithChildren =
+  GeneralDocumentsRouteRoute._addFileChildren(
+    GeneralDocumentsRouteRouteChildren,
+  )
+
+interface RuleDocumentsRouteRouteChildren {
+  RuleDocumentsIdRoute: typeof RuleDocumentsIdRoute
+  RuleDocumentsIndexRoute: typeof RuleDocumentsIndexRoute
+}
+
+const RuleDocumentsRouteRouteChildren: RuleDocumentsRouteRouteChildren = {
+  RuleDocumentsIdRoute: RuleDocumentsIdRoute,
+  RuleDocumentsIndexRoute: RuleDocumentsIndexRoute,
+}
+
+const RuleDocumentsRouteRouteWithChildren =
+  RuleDocumentsRouteRoute._addFileChildren(RuleDocumentsRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  GeneralDocumentsIdRoute: GeneralDocumentsIdRoute,
-  RuleDocumentsIdRoute: RuleDocumentsIdRoute,
-  GeneralDocumentsIndexRoute: GeneralDocumentsIndexRoute,
-  RuleDocumentsIndexRoute: RuleDocumentsIndexRoute,
+  GeneralDocumentsRouteRoute: GeneralDocumentsRouteRouteWithChildren,
+  RuleDocumentsRouteRoute: RuleDocumentsRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

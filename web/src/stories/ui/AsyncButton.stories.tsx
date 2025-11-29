@@ -27,3 +27,15 @@ export const Loading = {
     isBusy: true,
   },
 };
+
+export const Outline = {
+  args: {
+    variant: "outline",
+  },
+};
+
+export const Ghost = {
+  args: {
+    variant: "ghost",
+  },
+};

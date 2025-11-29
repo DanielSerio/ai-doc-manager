@@ -10,33 +10,89 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RuleDocumentsIndexRouteImport } from './routes/rule-documents/index'
+import { Route as GeneralDocumentsIndexRouteImport } from './routes/general-documents/index'
+import { Route as RuleDocumentsIdRouteImport } from './routes/rule-documents/$id'
+import { Route as GeneralDocumentsIdRouteImport } from './routes/general-documents/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RuleDocumentsIndexRoute = RuleDocumentsIndexRouteImport.update({
+  id: '/rule-documents/',
+  path: '/rule-documents/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GeneralDocumentsIndexRoute = GeneralDocumentsIndexRouteImport.update({
+  id: '/general-documents/',
+  path: '/general-documents/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuleDocumentsIdRoute = RuleDocumentsIdRouteImport.update({
+  id: '/rule-documents/$id',
+  path: '/rule-documents/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GeneralDocumentsIdRoute = GeneralDocumentsIdRouteImport.update({
+  id: '/general-documents/$id',
+  path: '/general-documents/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/general-documents/$id': typeof GeneralDocumentsIdRoute
+  '/rule-documents/$id': typeof RuleDocumentsIdRoute
+  '/general-documents': typeof GeneralDocumentsIndexRoute
+  '/rule-documents': typeof RuleDocumentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/general-documents/$id': typeof GeneralDocumentsIdRoute
+  '/rule-documents/$id': typeof RuleDocumentsIdRoute
+  '/general-documents': typeof GeneralDocumentsIndexRoute
+  '/rule-documents': typeof RuleDocumentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/general-documents/$id': typeof GeneralDocumentsIdRoute
+  '/rule-documents/$id': typeof RuleDocumentsIdRoute
+  '/general-documents/': typeof GeneralDocumentsIndexRoute
+  '/rule-documents/': typeof RuleDocumentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/general-documents/$id'
+    | '/rule-documents/$id'
+    | '/general-documents'
+    | '/rule-documents'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/general-documents/$id'
+    | '/rule-documents/$id'
+    | '/general-documents'
+    | '/rule-documents'
+  id:
+    | '__root__'
+    | '/'
+    | '/general-documents/$id'
+    | '/rule-documents/$id'
+    | '/general-documents/'
+    | '/rule-documents/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GeneralDocumentsIdRoute: typeof GeneralDocumentsIdRoute
+  RuleDocumentsIdRoute: typeof RuleDocumentsIdRoute
+  GeneralDocumentsIndexRoute: typeof GeneralDocumentsIndexRoute
+  RuleDocumentsIndexRoute: typeof RuleDocumentsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +104,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rule-documents/': {
+      id: '/rule-documents/'
+      path: '/rule-documents'
+      fullPath: '/rule-documents'
+      preLoaderRoute: typeof RuleDocumentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/general-documents/': {
+      id: '/general-documents/'
+      path: '/general-documents'
+      fullPath: '/general-documents'
+      preLoaderRoute: typeof GeneralDocumentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rule-documents/$id': {
+      id: '/rule-documents/$id'
+      path: '/rule-documents/$id'
+      fullPath: '/rule-documents/$id'
+      preLoaderRoute: typeof RuleDocumentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/general-documents/$id': {
+      id: '/general-documents/$id'
+      path: '/general-documents/$id'
+      fullPath: '/general-documents/$id'
+      preLoaderRoute: typeof GeneralDocumentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GeneralDocumentsIdRoute: GeneralDocumentsIdRoute,
+  RuleDocumentsIdRoute: RuleDocumentsIdRoute,
+  GeneralDocumentsIndexRoute: GeneralDocumentsIndexRoute,
+  RuleDocumentsIndexRoute: RuleDocumentsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

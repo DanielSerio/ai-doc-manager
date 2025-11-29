@@ -65,7 +65,7 @@ function AsyncButton({
       {...props}
     >
       <span>{children}</span>
-      <span>
+      <span className="grid line-height-0" style={{ placeContent: "center" }}>
         {isBusy ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : icon}
       </span>
     </Comp>

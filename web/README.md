@@ -9,7 +9,6 @@ This is the frontend for the AI Doc Manager application. It is a React applicati
 │   ├── components             # Components. Should be organized into features/modules.
 │   |   ├── layout             # Layout components
 │   |   |   ├── Header.tsx
-│   |   |   ├── Sidebar.tsx
 │   |   |   ├── Main.tsx
 │   |   |   └── Layout.tsx
 │   |   ├── ui                 # UI components from shadcn/ui

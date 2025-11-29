@@ -1,4 +1,5 @@
 import { PageHeader } from '@/components/layout';
+import { RulesTable } from '@/components/rules/RulesTable';
 import { PAGE_DATA } from '@/lib/const';
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
 
@@ -26,8 +27,8 @@ function RouteComponent() {
   return (
     <>
       <PageHeader {...pageData} />
-      <h1>List Component Here</h1>
       <Link to="/rules/$id" params={{ id: 'new' }} className="text-primary underline">Add Rule</Link>
+      <RulesTable />
       <Outlet />
     </>
   );

@@ -118,4 +118,13 @@ export interface DataTableProps<TData extends DTRowData, TValue> {
   data: TData[];
   isLoading?: boolean | null;
   error?: Error | null;
+  pagingMethods: {
+    goToFirstPage: () => void;
+    goToLastPage: () => void;
+    goToPreviousPage: () => void;
+    goToNextPage: () => void;
+  };
+  sortingMethods: {
+    changeColumnSorting: (column: string) => void;
+  };
 }

@@ -3,12 +3,12 @@ import { invertSorting } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-export const useRules = () => {
+export const useRules = ({ limit, offset }: { limit: number; offset: number; }) => {
   const trpc = useTRPCClient();
   const [totalRecords, setTotalRecords] = useState<number | null>(null);
   const [paging, setPaging] = useState<{ limit: number; offset: number; }>({
-    limit: 10,
-    offset: 0
+    limit,
+    offset
   });
   const [sorting, setSorting] = useState<Record<string, 'asc' | 'desc'>>({
     priority: 'asc',
@@ -25,7 +25,7 @@ export const useRules = () => {
 
       setTotalRecords(data.paging.total.records);
 
-      return data;
+      return data.data;
     }
   });
 
@@ -77,7 +77,7 @@ export const useRules = () => {
         pages: totalRecords ? Math.ceil(totalRecords / paging.limit) : 0
       }
     }
-  };
+  } as const;
 
   const methods = {
     goToFirstPage,
@@ -85,7 +85,7 @@ export const useRules = () => {
     goToPreviousPage,
     goToNextPage,
     changeColumnSorting
-  };
+  } as const;
 
   return [state, methods] as const;
 };

@@ -1,3 +1,4 @@
+import type { inferRouterOutputs } from '@trpc/server';
 import { rulesRouter } from './rules';
 import { generalDocumentsRouter } from './general-documents';
 import { ruleDocumentsRouter } from './rule-documents';
@@ -12,3 +13,5 @@ export const appRouter = t.router({
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
+
+export type AppRouterOutputs = inferRouterOutputs<AppRouter>;

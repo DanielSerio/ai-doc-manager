@@ -5,7 +5,7 @@ export interface LayoutProps extends Omit<AreaHTMLAttributes<HTMLDivElement>, 'i
 
 export function Layout({ children, className, ...props }: LayoutProps) {
   const classNames = cn(
-    'flex flex-col h-screen w-100 z-0', // layout/position
+    'flex flex-col h-screen w-full z-0', // layout/position
     'bg-background text-foreground', // colors
     className
   );

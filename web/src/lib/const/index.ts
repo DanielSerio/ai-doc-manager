@@ -1,0 +1,1 @@
+export { PAGE_DATA } from './page-data';

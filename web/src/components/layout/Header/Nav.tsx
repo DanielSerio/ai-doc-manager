@@ -12,7 +12,7 @@ const iconStyle = {
 };
 
 const LINKS = [
-  { label: 'Rule Definitions', href: '/' as const, icon: <Headphones style={iconStyle} /> },
+  { label: 'Rule Definitions', href: '/rules' as const, icon: <Headphones style={iconStyle} /> },
   { label: 'General Documents', href: '/general-documents' as const, icon: <FileText style={iconStyle} /> },
   { label: 'Rule Documents', href: '/rule-documents' as const, icon: <FileHeadphone style={iconStyle} /> },
 ] as const;

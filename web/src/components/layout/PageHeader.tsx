@@ -6,20 +6,18 @@ interface Breadcrumb {
 }
 
 export interface PageHeaderProps {
-  title: string;
   description: string;
   breadcrumbs: Breadcrumb[];
 }
 
-export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps) {
+export function PageHeader({ description, breadcrumbs }: PageHeaderProps) {
   return (
     <header>
       <section>
-        <div>
-          <h1>{title}</h1>
-          <p>{description}</p>
+        <div className="flex flex-col gap-y-2 px-4 py-2 bg-sidebar border-b">
+          <h1 className="text-muted-foreground font-semibold">{description}</h1>
         </div>
-        <Breadcrumb>
+        <Breadcrumb className="px-4 py-2 bg-card border-b">
           <BreadcrumbList>
             {breadcrumbs.map((breadcrumb, index) => {
               const isLastItem = index === breadcrumbs.length - 1;

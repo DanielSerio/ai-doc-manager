@@ -1,19 +1,26 @@
 export const PAGE_DATA = {
-  '/': {
-    title: 'Rules',
-    description: 'Rules page',
+  '/rules/': {
+    description: 'Rule Definitions',
+    breadcrumbs: [
+      { label: 'Rules' },
+    ],
+  },
+  '/rules/$id': {
+    description: 'Manage Rule Definition',
+    breadcrumbs: [
+      { label: 'Rules', href: '/rules/' },
+      { label: 'Rule' },
+    ],
   },
   '/rule-documents/': {
-    title: 'Rule Documents',
-    description: 'Rule Documents page',
+    description: 'Rule Documents',
     breadcrumbs: [
       { label: 'Rules', href: '/' },
       { label: 'Rule Documents' },
     ],
   },
   '/rule-documents/$id': {
-    title: 'Rule Document',
-    description: 'Rule Document page',
+    description: 'Manage Rule Document',
     breadcrumbs: [
       { label: 'Rules', href: '/' },
       { label: 'Rule Documents', href: '/rule-documents/' },
@@ -21,15 +28,13 @@ export const PAGE_DATA = {
     ],
   },
   '/general-documents/': {
-    title: 'General Documents',
-    description: 'General Documents page',
+    description: 'General Documents',
     breadcrumbs: [
       { label: 'General Documents' },
     ],
   },
   '/general-documents/$id': {
-    title: 'General Document',
-    description: 'General Document page',
+    description: 'Manage General Document',
     breadcrumbs: [
       { label: 'General Documents', href: '/general-documents/' },
       { label: 'General Document' },

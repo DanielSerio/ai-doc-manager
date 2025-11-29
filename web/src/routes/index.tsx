@@ -1,13 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
-  component: Index,
+  beforeLoad() {
+    throw redirect({
+      to: '/rules',
+    });
+  }
 });
-
-function Index() {
-  return (
-    <>
-      <h3>Welcome to the rules page!</h3>
-    </>
-  );
-}

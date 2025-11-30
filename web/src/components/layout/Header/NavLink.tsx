@@ -13,7 +13,7 @@ export type NavLinkProps = Omit<LinkProps, 'children'> & {
 export function NavLink({ icon, children, className, isActive, ...props }: NavLinkProps) {
   const classNames = cn(
     'flex items-center gap-x-1 px-1',
-    isActive ? 'text-primary' : 'text-muted-foreground',
+    isActive ? 'text-primary' : 'text-muted-foreground/80 hover:text-foreground',
     className
   );
 

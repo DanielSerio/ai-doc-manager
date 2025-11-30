@@ -1,9 +1,11 @@
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/contexts/theme';
 
 export function MdRenderer({ content }: { content: string; }) {
+  const { theme } = useTheme();
   const classNames = cn(
     'markdown',
     `p-2 max-h-[41svh] overflow-y-auto`,
@@ -18,7 +20,7 @@ export function MdRenderer({ content }: { content: string; }) {
               <SyntaxHighlighter
                 language={match[1]}
                 PreTag="div" // Use a div for the pre tag
-                style={oneLight}
+                style={theme === 'dark' ? oneDark : oneLight}
                 {...props}
               >
                 {String(children).replace(/\n$/, '')}

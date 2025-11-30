@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Fragment } from "react/jsx-runtime";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const iconStyle = {
   height: 14,
@@ -61,6 +62,14 @@ const MobileNav = ({ isRouteActive }: { isRouteActive: (href: string) => boolean
             </NavLink>
           </DropdownMenuItem>
         ))}
+        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <div className="flex-1">
+            Dark Mode
+          </div>
+          <ModeToggle />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

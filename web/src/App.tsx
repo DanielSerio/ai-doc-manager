@@ -7,6 +7,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
+import { ThemeProvider } from './contexts/theme';
 
 // Create a new router instance
 const router = createRouter({ routeTree });
@@ -57,7 +58,9 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-        <RouterProvider router={router} />
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </TRPCProvider>
     </QueryClientProvider>
   );

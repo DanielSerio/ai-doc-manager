@@ -1,6 +1,6 @@
 import z from "zod";
 import { publicProcedure, t } from "./init";
-import { db } from "..";
+import { db } from "../db/client";
 import { rulesCreateSchema, rulesSelectSchema, rulesTable, rulesUpdateSchema } from "../db/schema";
 import { eq, sql } from "drizzle-orm";
 
@@ -57,10 +57,26 @@ export const rulesRouter = t.router({
 
       return { id };
     }),
+  getOne: publicProcedure
+    .input(z.object({
+      id: z.number().int().positive(),
+    }))
+    .output(rulesSelectSchema)
+    .query(async ({ input }) => {
+      const { id } = input;
+
+      const result = await db.select().from(rulesTable).where(eq(rulesTable.id, id)).get();
+
+      if (!result) {
+        throw new Error('Failed to get rule');
+      }
+
+      return result;
+    }),
   getMany: publicProcedure
     .input(z.object({
-      limit: z.number().optional(),
-      offset: z.number().optional(),
+      limit: z.number().int().positive().optional(),
+      offset: z.number().int().nonnegative().optional(),
       sorting: z.partialRecord(z.enum(['asc', 'desc']), z.array(z.string())).optional()
     }))
     .output(z.object({

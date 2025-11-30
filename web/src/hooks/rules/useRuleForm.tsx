@@ -1,13 +1,12 @@
-import { RuleCreateSchema } from '@/lib/schemas';
+import { RuleCreateSchema, RuleUpdateSchema } from '@/lib/schemas';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
-import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import type z from 'zod';
 
 type RuleCreate = z.infer<typeof RuleCreateSchema>;
 
-type RuleData = RuleCreate & {
-  id: number | null;
+type RuleUpdate = RuleCreate & {
+  id: number;
 };
 
 const fallbackValues = {
@@ -17,22 +16,28 @@ const fallbackValues = {
 };
 
 
-export function useRuleForm(defaultValues?: RuleData) {
-  const [id, setId] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (defaultValues?.id) {
-      setId(defaultValues.id);
-    }
-  }, [defaultValues]);
-
+export function useCreateRuleForm(defaultValues?: RuleCreate) {
   const form = useForm({
     defaultValues: defaultValues ?? fallbackValues,
     resolver: standardSchemaResolver(RuleCreateSchema)
   });
 
   return {
-    id,
+    form
+  };
+}
+
+export function useUpdateRuleForm(defaultValues?: RuleUpdate) {
+  const form = useForm({
+    defaultValues: {
+      ...fallbackValues,
+      ...defaultValues,
+      id: defaultValues?.id ?? -1
+    },
+    resolver: standardSchemaResolver(RuleUpdateSchema)
+  });
+
+  return {
     form
   };
 }

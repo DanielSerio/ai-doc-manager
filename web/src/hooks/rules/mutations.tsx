@@ -22,7 +22,7 @@ export const useCreateRuleMutation = ({ onSuccess, onError }: MutationProps<Rule
 };
 
 interface UpdateMutationProps extends MutationProps<Rule> {
-  id: number;
+  id: number | null;
 }
 
 export const useUpdateRuleMutation = ({ id, onSuccess, onError }: UpdateMutationProps) => {
@@ -33,6 +33,10 @@ export const useUpdateRuleMutation = ({ id, onSuccess, onError }: UpdateMutation
   return useMutation({
     mutationKey: ["rules", "update", id],
     mutationFn: async (input: Parameters<typeof mutationFn>[0]) => {
+      if (!id) {
+        throw new Error("No id provided");
+      }
+
       const data = await mutationFn(input);
 
       return data;

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "../ui/breadcrumb";
 
 interface Breadcrumb {
@@ -23,14 +24,16 @@ export function PageHeader({ description, breadcrumbs }: PageHeaderProps) {
               const isLastItem = index === breadcrumbs.length - 1;
 
               return (
-                <BreadcrumbItem key={index}>
-                  {breadcrumb.href ? (
-                    <BreadcrumbLink href={breadcrumb.href}>{breadcrumb.label}</BreadcrumbLink>
-                  ) : (
-                    <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
-                  )}
+                <Fragment key={index}>
+                  <BreadcrumbItem>
+                    {breadcrumb.href ? (
+                      <BreadcrumbLink href={breadcrumb.href}>{breadcrumb.label}</BreadcrumbLink>
+                    ) : (
+                      <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+                    )}
+                  </BreadcrumbItem>
                   {!isLastItem && <BreadcrumbSeparator />}
-                </BreadcrumbItem>
+                </Fragment>
               );
             })}
           </BreadcrumbList>

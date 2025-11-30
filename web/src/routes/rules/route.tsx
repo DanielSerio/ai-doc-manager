@@ -1,9 +1,11 @@
 import { PageHeader } from '@/components/layout';
 import { RulesTable } from '@/components/rules';
+import { Button } from '@/components/ui/button';
 import { useRulesTable } from '@/hooks/rules';
 import { useRulesTableColumns } from '@/hooks/rules/useRulesTableColumns';
 import { PAGE_DATA } from '@/lib/const';
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
+import { Plus } from 'lucide-react';
 
 export const Route = createFileRoute('/rules')({
   beforeLoad: ({ params }) => {
@@ -28,17 +30,18 @@ function RouteComponent() {
   const [{ isLoading, error, rows, visibilityState }, methods] = useRulesTable();
   const columns = useRulesTableColumns();
 
-  console.info({
-    isLoading,
-    error,
-    rows,
-    visibilityState
-  });
 
   return (
     <>
       <PageHeader {...pageData} />
-      <Link to="/rules/$id" params={{ id: 'new' }} className="text-primary underline">Add Rule</Link>
+      <div className="p-4">
+        <Button asChild size="sm">
+          <Link to="/rules/$id" params={{ id: 'new' }}>
+            <span>Add Rule</span>
+            <Plus />
+          </Link>
+        </Button>
+      </div>
       <RulesTable
         isLoading={isLoading}
         error={error}

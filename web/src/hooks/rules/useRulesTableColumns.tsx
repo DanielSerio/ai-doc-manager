@@ -11,7 +11,7 @@ type DTRule = Rule & {
 export function useRulesTableColumns() {
   return useMemo(() => {
     return [
-      getTypedLineNumberColumn<DTRule, number>(),
+      getTypedLineNumberColumn<DTRule, number>('id'),
       {
         id: 'category',
         header: 'Category',
@@ -38,7 +38,7 @@ export function useRulesTableColumns() {
         id: 'rawContent',
         header: 'Content',
         cell: ({ row }) => <div className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
-          <Link to="/rules/$id" params={{ id: `${row.original.id}` }}>{row.original.rawContent}</Link>
+          <Link to="/rules/$id" className="text-primary hover:underline" params={{ id: `${row.original.id}` }}>{row.original.rawContent}</Link>
         </div>,
         meta: {
           size: {

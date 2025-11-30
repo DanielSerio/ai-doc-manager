@@ -8,8 +8,8 @@ export const rulesTable = sqliteTable('rules', {
   rawContent: text('raw_content').notNull(),
   category: text('category').notNull(),
   priority: integer('priority').notNull().default(50),
-  createdAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`).$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()).$onUpdate(() => new Date()),
 });
 
 export const rulesSelectSchema = createSelectSchema(rulesTable);
@@ -21,8 +21,8 @@ export const ruleDocumentsTable = sqliteTable('rule_documents', {
   path: text('path').notNull(),
   name: text('name').notNull(),
   description: text('description').notNull(),
-  createdAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`).$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()).$onUpdate(() => new Date()),
 });
 
 export const ruleDocumentsSelectSchema = createSelectSchema(ruleDocumentsTable);
@@ -34,7 +34,7 @@ export const ruleDocumentRulesTable = sqliteTable('rule_document_rules', {
   ruleId: integer('rule_id').notNull().references(() => rulesTable.id),
   isEnabled: integer('is_enabled').notNull().default(1),
   priorityOverride: integer('priority_override').notNull().default(50),
-  updatedAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`).$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()).$onUpdate(() => new Date()),
 }, (table) => [
   primaryKey({ columns: [table.ruleDocumentId, table.ruleId] }),
 ]);
@@ -49,8 +49,8 @@ export const generalDocumentsTable = sqliteTable('general_documents', {
   name: text('name').notNull(),
   description: text('description').notNull(),
   rawContent: text('raw_content').notNull(),
-  createdAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`).$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()).$onUpdate(() => new Date()),
 });
 
 export const generalDocumentsSelectSchema = createSelectSchema(generalDocumentsTable);

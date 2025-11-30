@@ -6,7 +6,7 @@ export function Header() {
   const isMobile = useIsMobile();
 
   return (
-    <header className="bg-card border-b h-10">
+    <header className="bg-card border-b h-16">
       <section className="flex justify-between items-center h-full">
         <h1 className="px-4">DocManager</h1>
         <Nav isMobile={isMobile} />

@@ -1,28 +1,30 @@
 import { useCreateRuleMutation } from "@/hooks/rules";
-import { Form } from "../../ui/form";
-import { useRuleForm } from "@/hooks/rules/useRuleForm";
+import { useCreateRuleForm } from "@/hooks/rules/useRuleForm";
 import type z from "zod";
 import type { RuleCreateSchema } from "@/lib/schemas";
 import { PriorityField } from "./subcomponents/PriorityField";
 import { CategoryField } from "./subcomponents/CategoryField";
 import { RawContentField } from "./subcomponents/RawContentField";
-import { Button } from "@/components/ui/button";
+import { AsyncButton } from "@/components/ui/async-button";
 import { FormProvider } from "react-hook-form";
 import { MdRenderer } from "@/components/ui/md-renderer";
+import { Save } from "lucide-react";
 
 export interface CreateRuleFormProps {
   onSuccess: () => void;
   onError: (err: Error) => void;
 }
 
-export type CreateRuleFormType = ReturnType<typeof useRuleForm>['form'];
+export type CreateRuleFormType = ReturnType<typeof useCreateRuleForm>['form'];
 
 export function CreateRuleForm({ onSuccess, onError }: CreateRuleFormProps) {
   const mutation = useCreateRuleMutation({
     onSuccess,
     onError
   });
-  const { form } = useRuleForm();
+  const { form } = useCreateRuleForm();
+
+  const { isValid } = form.formState;
 
   const onSubmit = (data: z.infer<typeof RuleCreateSchema>) => {
     mutation.mutate(data);
@@ -34,7 +36,7 @@ export function CreateRuleForm({ onSuccess, onError }: CreateRuleFormProps) {
     <FormProvider {...form}>
       <form className="p-4 h-full flex flex-col" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex-1">
-          <div className="flex gap-2 mb-2">
+          <div className="flex gap-4 mb-2">
             <CategoryField />
             <PriorityField />
           </div>
@@ -44,7 +46,7 @@ export function CreateRuleForm({ onSuccess, onError }: CreateRuleFormProps) {
           </div>
         </div>
         <footer className="pt-5 border-t">
-          <Button className="w-full" type="submit">Save</Button>
+          <AsyncButton icon={<Save />} isBusy={mutation.isPending} disabled={!isValid} className="w-full" type="submit">Save</AsyncButton>
         </footer>
       </form>
     </FormProvider>

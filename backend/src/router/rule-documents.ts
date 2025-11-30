@@ -1,6 +1,6 @@
 import z from "zod";
 import { publicProcedure, t } from "./init";
-import { db } from "..";
+import { db } from "../db/client";
 import { ruleDocumentRulesSelectSchema, ruleDocumentRulesTable, ruleDocumentRulesUpdateSchema, ruleDocumentsCreateSchema, ruleDocumentsSelectSchema, ruleDocumentsTable, ruleDocumentsUpdateSchema, rulesTable } from "../db/schema";
 import { eq, sql } from "drizzle-orm";
 

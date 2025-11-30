@@ -20,11 +20,12 @@ const LINKS = [
 
 const DesktopNav = ({ isRouteActive }: { isRouteActive: (href: string) => boolean; }) => {
   const rootClassNames = cn(
+    'flex px-4',
     'text-sm font-semibold'
   );
   return (
     <nav className={rootClassNames}>
-      <ul className="flex items-center gap-x-2 px-4" style={{}}>
+      <ul className="flex items-center gap-x-2 px-4">
         {LINKS.map((link, index) => {
           const isNotLastItem = index !== LINKS.length - 1;
 
@@ -40,6 +41,7 @@ const DesktopNav = ({ isRouteActive }: { isRouteActive: (href: string) => boolea
           );
         })}
       </ul>
+      <ModeToggle />
     </nav>
   );
 };
@@ -48,28 +50,20 @@ const MobileNav = ({ isRouteActive }: { isRouteActive: (href: string) => boolean
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="ml-auto">
-          <Menu className="h-5 w-5" />
+        <Button variant="outline" className="ml-auto mr-4 w-[36px]">
+          <Menu />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Navigation</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {LINKS.map((link) => (
-          <DropdownMenuItem key={link.href} asChild>
+          <DropdownMenuItem key={link.href}>
             <NavLink to={link.href} icon={link.icon} isActive={isRouteActive(link.href)}>
               {link.label}
             </NavLink>
           </DropdownMenuItem>
         ))}
-        <DropdownMenuLabel>Theme</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <div className="flex-1">
-            Dark Mode
-          </div>
-          <ModeToggle />
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -79,7 +73,12 @@ export function Nav({ isMobile }: { isMobile?: boolean; }) {
   const [_, { isRouteActive }] = useAppNavigation();
 
   if (isMobile) {
-    return <MobileNav isRouteActive={isRouteActive} />;
+    return (
+      <div className="flex items-center pr-4">
+        <MobileNav isRouteActive={isRouteActive} />
+        <ModeToggle />
+      </div>
+    );
   }
 
   return <DesktopNav isRouteActive={isRouteActive} />;

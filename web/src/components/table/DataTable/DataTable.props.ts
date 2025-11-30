@@ -1,6 +1,6 @@
 import type { Pretty } from "@/types";
-import type { ReactNode, TableHTMLAttributes } from "react";
-import type { ColumnDef, RowData, Table } from "@tanstack/react-table";
+import type { Dispatch, ReactNode, SetStateAction, TableHTMLAttributes } from "react";
+import type { ColumnDef, RowData, Table, VisibilityState } from "@tanstack/react-table";
 
 /**
  * Row Data Types
@@ -101,6 +101,7 @@ export interface DTTableHeaderProps<TData extends DTRowData, TValue> extends DTH
 
 export interface DTTableBodyProps<TData extends DTRowData> extends DTTableSectionProps<TData> {
   isLoading?: boolean | null;
+  skeletonRowCount?: number;
   error?: Error | null;
 }
 
@@ -117,7 +118,9 @@ export interface DataTableProps<TData extends DTRowData, TValue> {
   columns: DTColumnDef<TData, TValue>[];
   data: TData[];
   isLoading?: boolean | null;
+  skeletonRowCount?: number;
   error?: Error | null;
+  visibilityState: VisibilityState;
   pagingMethods: {
     goToFirstPage: () => void;
     goToLastPage: () => void;
@@ -126,5 +129,8 @@ export interface DataTableProps<TData extends DTRowData, TValue> {
   };
   sortingMethods: {
     changeColumnSorting: (column: string) => void;
+  };
+  visibilityMethods: {
+    setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>;
   };
 }

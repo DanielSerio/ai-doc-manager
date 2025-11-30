@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils";
 import type { DTCellProps } from "../DataTable.props";
-import { TableCell } from "@/components/ui/table";
+import { TableHead } from "@/components/ui/table";
 import { COLUMN_ALIGN_CLASS_NAME_MAP } from "@/lib/const/data-table";
 
-export function DTCell({ align, children, className, ...props }: DTCellProps) {
+export function DTHead({ align, children, className, ...props }: DTCellProps) {
   const classNames = cn(
-    'flex p-0',
+    'flex h-8 items-center',
     align ? COLUMN_ALIGN_CLASS_NAME_MAP[align] : null,
     className
   );
 
   return (
-    <TableCell className={classNames} {...props}>
+    <TableHead className={classNames} {...props}>
       {children}
-    </TableCell>
+    </TableHead>
   );
 }

@@ -1,6 +1,7 @@
 import { PageHeader } from '@/components/layout';
 import { RulesTable } from '@/components/rules';
 import { useRulesTable } from '@/hooks/rules';
+import { useRulesTableColumns } from '@/hooks/rules/useRulesTableColumns';
 import { PAGE_DATA } from '@/lib/const';
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
 
@@ -24,7 +25,15 @@ export const Route = createFileRoute('/rules')({
 
 function RouteComponent() {
   const pageData = Route.useRouteContext();
-  const [{ isLoading, error, rows }, methods] = useRulesTable();
+  const [{ isLoading, error, rows, visibilityState }, methods] = useRulesTable();
+  const columns = useRulesTableColumns();
+
+  console.info({
+    isLoading,
+    error,
+    rows,
+    visibilityState
+  });
 
   return (
     <>
@@ -35,6 +44,8 @@ function RouteComponent() {
         error={error}
         rows={rows}
         methods={methods}
+        columns={columns}
+        visibilityState={visibilityState}
       />
       <Outlet />
     </>

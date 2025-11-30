@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export function DTRow({ gridTemplateColumns, children, className, style, ...props }: DTRowProps) {
   const classNames = cn(
-    'grid',
+    'grid p-0',
     className
   );
 

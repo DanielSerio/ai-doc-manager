@@ -6,6 +6,7 @@ import z from 'zod';
 export const rulesTable = sqliteTable('rules', {
   id: integer('id').primaryKey(),
   rawContent: text('raw_content').notNull(),
+  category: text('category').notNull(),
   priority: integer('priority').notNull().default(50),
   createdAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`),
   updatedAt: integer({ mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`).$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),

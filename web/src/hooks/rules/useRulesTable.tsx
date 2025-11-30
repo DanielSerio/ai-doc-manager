@@ -1,7 +1,10 @@
+import type { VisibilityState } from "@tanstack/react-table";
 import { useDataTableRows } from "../data-table";
 import { useRules } from "./useRules";
+import { useState } from "react";
 
 export function useRulesTable() {
+  const [visibilityState, setVisibilityState] = useState<VisibilityState>({});
   const [{ query }, ruleMethods] = useRules({
     limit: 10,
     offset: 0
@@ -14,11 +17,13 @@ export function useRulesTable() {
   const state = {
     rows,
     isLoading: query.isLoading,
-    error: query.error
+    error: query.error,
+    visibilityState
   };
 
   const methods = {
-    ...ruleMethods
+    ...ruleMethods,
+    setColumnVisibility: setVisibilityState
   };
 
   return [state, methods] as const;

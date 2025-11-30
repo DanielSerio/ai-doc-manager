@@ -1,6 +1,6 @@
 import type { Pretty } from "@/types";
 import type { Dispatch, ReactNode, SetStateAction, TableHTMLAttributes } from "react";
-import type { ColumnDef, RowData, Table, VisibilityState } from "@tanstack/react-table";
+import type { ColumnDef, RowData, SortingState, Table, VisibilityState } from "@tanstack/react-table";
 
 /**
  * Row Data Types
@@ -121,6 +121,7 @@ export interface DataTableProps<TData extends DTRowData, TValue> {
   skeletonRowCount?: number;
   error?: Error | null;
   visibilityState: VisibilityState;
+  sorting: SortingState;
   pagingMethods: {
     goToFirstPage: () => void;
     goToLastPage: () => void;
@@ -128,7 +129,7 @@ export interface DataTableProps<TData extends DTRowData, TValue> {
     goToNextPage: () => void;
   };
   sortingMethods: {
-    changeColumnSorting: (column: string) => void;
+    setSorting: Dispatch<SetStateAction<SortingState>>;
   };
   visibilityMethods: {
     setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>;

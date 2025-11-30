@@ -3,8 +3,11 @@ import type { DTRowData, DTTableHeaderProps } from "../DataTable.props";
 import { flexRender } from "@tanstack/react-table";
 import { DTRow } from "./DTRow";
 import { DTHead } from "./DTHead";
+import { Button } from "@/components/ui/button";
+import { SortAsc, SortDesc } from "lucide-react";
 
 export function DTTableHeader<TData extends DTRowData, TValue = unknown>({ gridTemplateColumns, columnDefs: _columnDefs, table }: DTTableHeaderProps<TData, TValue>) {
+
   return (
     <TableHeader>
       {table.getHeaderGroups().map(headerGroup => (
@@ -17,6 +20,14 @@ export function DTTableHeader<TData extends DTRowData, TValue = unknown>({ gridT
                   header.column.columnDef.header,
                   header.getContext()
                 )}
+              {header.column.getCanSort() && (
+                <Button
+                  variant="ghost"
+                  onClick={() => header.column.toggleSorting()}
+                >
+                  {header.column.getIsSorted() === 'asc' ? <SortAsc /> : <SortDesc />}
+                </Button>
+              )}
             </DTHead>
           ))}
         </DTRow>

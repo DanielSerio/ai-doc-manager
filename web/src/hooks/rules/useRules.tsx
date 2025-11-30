@@ -1,6 +1,7 @@
 import { useTRPCClient } from "@/lib/api/trpc";
 import { invertSorting } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import type { SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 
 export const useRules = ({ limit, offset }: { limit: number; offset: number; }) => {
@@ -10,10 +11,16 @@ export const useRules = ({ limit, offset }: { limit: number; offset: number; }) 
     limit,
     offset
   });
-  const [sorting, setSorting] = useState<Record<string, 'asc' | 'desc'>>({
-    priority: 'asc',
-    createdAt: 'desc'
-  });
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: 'priority',
+      desc: false
+    },
+    {
+      id: 'createdAt',
+      desc: true
+    }
+  ]);
 
   const query = useQuery({
     queryKey: ["rules", JSON.stringify(paging), JSON.stringify(sorting)],
@@ -49,26 +56,10 @@ export const useRules = ({ limit, offset }: { limit: number; offset: number; }) 
     offset: paging.offset + paging.limit
   });
 
-  const changeColumnSorting = (column: string) => setSorting((prevSorting) => {
-    if (prevSorting[column] === 'asc') {
-      return {
-        ...prevSorting,
-        [column]: 'desc'
-      };
-    } else if (prevSorting[column] === 'desc') {
-      return {
-        ...prevSorting,
-        [column]: 'asc'
-      };
-    } else {
-      delete prevSorting[column];
-
-      return prevSorting;
-    }
-  });
 
   const state = {
     query,
+    sorting,
     paging: {
       limit: paging.limit,
       offset: paging.offset,
@@ -84,7 +75,7 @@ export const useRules = ({ limit, offset }: { limit: number; offset: number; }) 
     goToLastPage,
     goToPreviousPage,
     goToNextPage,
-    changeColumnSorting
+    setSorting
   } as const;
 
   return [state, methods] as const;

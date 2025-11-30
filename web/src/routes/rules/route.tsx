@@ -27,7 +27,7 @@ export const Route = createFileRoute('/rules')({
 
 function RouteComponent() {
   const pageData = Route.useRouteContext();
-  const [{ isLoading, error, rows, visibilityState }, methods] = useRulesTable();
+  const [{ isLoading, error, rows, visibilityState, sorting }, methods] = useRulesTable();
   const columns = useRulesTableColumns();
 
 
@@ -49,6 +49,7 @@ function RouteComponent() {
         methods={methods}
         columns={columns}
         visibilityState={visibilityState}
+        sorting={sorting}
       />
       <Outlet />
     </>

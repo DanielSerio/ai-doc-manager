@@ -1,6 +1,6 @@
 import { DataTable, type DTColumnDef, type DTRowData } from "@/components/table/DataTable";
 import type { useRulesTable } from "@/hooks/rules/useRulesTable";
-import type { VisibilityState } from "@tanstack/react-table";
+import type { SortingState, VisibilityState } from "@tanstack/react-table";
 
 type MethodsRowType = ReturnType<typeof useRulesTable>[1];
 
@@ -10,6 +10,7 @@ interface RulesTableProps<RowType extends DTRowData> {
   rows: RowType[];
   columns: DTColumnDef<RowType, unknown>[];
   visibilityState: VisibilityState;
+  sorting: SortingState;
   methods: MethodsRowType;
 }
 
@@ -19,8 +20,9 @@ export function RulesTable<RowType extends DTRowData>({
   rows,
   columns,
   visibilityState,
+  sorting,
   methods: {
-    changeColumnSorting,
+    setSorting,
     setColumnVisibility,
     ...pagingMethods
   } }: RulesTableProps<RowType>) {
@@ -32,9 +34,10 @@ export function RulesTable<RowType extends DTRowData>({
       isLoading={isLoading}
       error={error}
       visibilityState={visibilityState}
+      sorting={sorting}
       visibilityMethods={{ setColumnVisibility }}
       pagingMethods={pagingMethods}
-      sortingMethods={{ changeColumnSorting }}
+      sortingMethods={{ setSorting }}
     />
   );
 }

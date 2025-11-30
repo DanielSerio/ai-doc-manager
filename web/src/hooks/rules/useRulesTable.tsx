@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export function useRulesTable() {
   const [visibilityState, setVisibilityState] = useState<VisibilityState>({});
-  const [{ query }, ruleMethods] = useRules({
+  const [{ query, sorting }, ruleMethods] = useRules({
     limit: 10,
     offset: 0
   });
@@ -18,7 +18,8 @@ export function useRulesTable() {
     rows,
     isLoading: query.isLoading,
     error: query.error,
-    visibilityState
+    visibilityState,
+    sorting
   };
 
   const methods = {

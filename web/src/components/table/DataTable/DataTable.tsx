@@ -13,25 +13,28 @@ export function DataTable<TData extends DTRowData, TValue = unknown>({
   isLoading,
   skeletonRowCount,
   error,
+  sorting,
   visibilityState,
+  sortingMethods,
   visibilityMethods: { setColumnVisibility }
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
+    manualSorting: true,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     state: {
-      columnVisibility: visibilityState
+      columnVisibility: visibilityState,
+      sorting
     },
-    onColumnVisibilityChange: setColumnVisibility
+    onColumnVisibilityChange: setColumnVisibility,
+    onSortingChange: sortingMethods.setSorting
   });
 
   const {
     columnDefs,
     gridTemplateColumns,
-    minWidth,
-    maxWidth
   } = useMemo(() => {
     if (!columns) {
       return {

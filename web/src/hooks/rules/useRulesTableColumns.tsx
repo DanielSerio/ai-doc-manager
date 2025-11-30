@@ -15,6 +15,7 @@ export function useRulesTableColumns() {
       {
         id: 'category',
         header: 'Category',
+        accessorKey: 'category',
         cell: ({ row }) => <div>{row.original.category}</div>,
         meta: {
           size: {
@@ -26,6 +27,7 @@ export function useRulesTableColumns() {
       {
         id: 'priority',
         header: 'Priority',
+        accessorKey: 'priority',
         cell: ({ row }) => <div>{row.original.priority}</div>,
         meta: {
           size: {
@@ -37,6 +39,7 @@ export function useRulesTableColumns() {
       {
         id: 'rawContent',
         header: 'Content',
+        accessorKey: 'rawContent',
         cell: ({ row }) => <div className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
           <Link to="/rules/$id" className="text-primary hover:underline" params={{ id: `${row.original.id}` }}>{row.original.rawContent}</Link>
         </div>,

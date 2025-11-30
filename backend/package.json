@@ -13,5 +13,8 @@
     "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.7",
     "tsx": "^4.20.6"
+  },
+  "scripts": {
+    "start": "bun ./src/index.ts"
   }
 }

@@ -13,6 +13,11 @@ const common = {
     .trim()
     .min(1, `${title}.rawContent must not be empty`)
     .max(512, `${title}.rawContent must not be longer than 512 characters`),
+  category: z
+    .string(`${title}.category must be a string`)
+    .trim()
+    .min(1, `${title}.category must not be empty`)
+    .max(64, `${title}.category must not be longer than 64 characters`),
   priority: z
     .number(`${title}.priority must be a number`)
     .int(`${title}.priority must be an integer`)
@@ -29,11 +34,13 @@ const common = {
 export const RuleUpdateSchema = z.object({
   id: common.id,
   rawContent: common.rawContent,
+  category: common.category,
   priority: common.priority,
 });
 
 export const RuleCreateSchema = z.object({
   rawContent: common.rawContent,
+  category: common.category,
   priority: common.priority,
 });
 
@@ -41,6 +48,7 @@ export const RuleSchema = z.object({
   id: common.id,
   rawContent: common.rawContent,
   priority: common.priority,
+  category: common.category,
   createdAt: common.createdAt,
   updatedAt: common.updatedAt,
 });

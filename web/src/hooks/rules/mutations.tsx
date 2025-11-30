@@ -1,8 +1,10 @@
 import { useTRPCClient } from "@/lib/api/trpc";
+import type { Rule } from "@/types";
+import type { MutationProps } from "@/types/mutation";
 import { useMutation } from "@tanstack/react-query";
 
 
-export const useCreateRuleMutation = () => {
+export const useCreateRuleMutation = ({ onSuccess, onError }: MutationProps<Rule>) => {
   const trpc = useTRPCClient();
 
   const mutationFn = trpc.rules.create.mutate;
@@ -13,11 +15,17 @@ export const useCreateRuleMutation = () => {
       const data = await mutationFn(input);
 
       return data;
-    }
+    },
+    onSuccess,
+    onError
   });
 };
 
-export const useUpdateRuleMutation = (id: number) => {
+interface UpdateMutationProps extends MutationProps<Rule> {
+  id: number;
+}
+
+export const useUpdateRuleMutation = ({ id, onSuccess, onError }: UpdateMutationProps) => {
   const trpc = useTRPCClient();
 
   const mutationFn = trpc.rules.update.mutate;
@@ -28,11 +36,17 @@ export const useUpdateRuleMutation = (id: number) => {
       const data = await mutationFn(input);
 
       return data;
-    }
+    },
+    onSuccess,
+    onError
   });
 };
 
-export const useDeleteRuleMutation = (id: number) => {
+interface DeleteMutationProps extends MutationProps<{ id: number; }> {
+  id: number;
+}
+
+export const useDeleteRuleMutation = ({ id, onSuccess, onError }: DeleteMutationProps) => {
   const trpc = useTRPCClient();
 
   const mutationFn = trpc.rules.delete.mutate;
@@ -43,6 +57,8 @@ export const useDeleteRuleMutation = (id: number) => {
       const data = await mutationFn({ id });
 
       return data;
-    }
+    },
+    onSuccess,
+    onError
   });
 };

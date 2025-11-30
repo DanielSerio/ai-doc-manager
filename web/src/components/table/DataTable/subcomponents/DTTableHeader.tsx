@@ -23,6 +23,8 @@ export function DTTableHeader<TData extends DTRowData, TValue = unknown>({ gridT
               {header.column.getCanSort() && (
                 <Button
                   variant="ghost"
+                  size="icon-sm"
+                  className="h-6 w-6 text-muted-foreground"
                   onClick={() => header.column.toggleSorting()}
                 >
                   {header.column.getIsSorted() === 'asc' ? <SortAsc /> : <SortDesc />}

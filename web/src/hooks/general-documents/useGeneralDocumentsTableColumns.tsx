@@ -23,6 +23,18 @@ export function useGeneralDocumentsTableColumns() {
         }
       }
     },
+    {
+      id: 'path',
+      header: 'Path',
+      accessorKey: 'path',
+      cell: ({ row }) => <code>{row.original.path}</code>,
+      meta: {
+        size: {
+          min: 100,
+          max: 200
+        }
+      }
+    },
     getDateColumn('createdAt') as DTColumnDef<GeneralDocumentRowType, unknown>,
     getDateColumn('updatedAt') as DTColumnDef<GeneralDocumentRowType, unknown>
   ] satisfies (DTColumnDef<GeneralDocumentRowType, unknown>)[], []);

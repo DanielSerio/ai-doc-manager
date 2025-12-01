@@ -13,11 +13,9 @@ function RouteComponent() {
   const searchParams = Route.useSearch();
   const query = useGeneralDocument(id);
 
-  console.warn(searchParams);
-
   if (id === 'new') {
     return <NewGeneralDocumentPage searchParams={searchParams} />;
   }
 
-  return <GeneralDocumentPage query={query} />;
+  return <GeneralDocumentPage query={query} searchParams={searchParams} />;
 }

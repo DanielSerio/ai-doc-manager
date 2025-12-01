@@ -1,0 +1,3 @@
+- Data table sort buttons should have a "null" state.
+- Need url validation for path fields.
+- Need better skeletons throughout the app.

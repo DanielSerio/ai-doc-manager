@@ -52,7 +52,6 @@ export function UpdateGeneralDocumentForm({
 
   const markdownRendered = form.watch("rawContent");
 
-
   return (
     <div className="flex flex-col p-4">
       {isPreviewMode && (

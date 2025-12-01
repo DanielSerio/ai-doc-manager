@@ -1,9 +1,9 @@
 import { MdDocumentPreview } from "@/components/feedback";
 import { AsyncButton } from "@/components/ui/async-button";
 import { Button } from "@/components/ui/button";
-import { useCreateGeneralDocumentForm } from "@/hooks/general-documents";
-import { useCreateGeneralDocumentMutation } from "@/hooks/general-documents/mutations";
-import type { GeneralDocumentCreateSchema } from "@/lib/schemas";
+import { useUpdateGeneralDocumentForm } from "@/hooks/general-documents";
+import { useUpdateGeneralDocumentMutation } from "@/hooks/general-documents/mutations";
+import type { GeneralDocumentUpdateSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { Save } from "lucide-react";
 import { FormProvider } from "react-hook-form";
@@ -13,8 +13,9 @@ import { PathField } from "./subcomponents/PathField";
 import { DescriptionField } from "./subcomponents/DescriptionField";
 import { RawContentField } from "./subcomponents/RawContentField";
 
-export interface CreateGeneralDocumentFormProps {
+export interface UpdateGeneralDocumentFormProps {
   isPreviewMode?: boolean;
+  defaultValues: z.infer<typeof GeneralDocumentUpdateSchema>;
   onDocumentPreviewCancel: () => void;
   onPreviewClick: () => void;
   onSuccess: ({ id }: { id: number; }) => Promise<void>;
@@ -22,26 +23,31 @@ export interface CreateGeneralDocumentFormProps {
   onCancel: () => void;
 }
 
-export type CreateGeneralDocumentFormType = ReturnType<typeof useCreateGeneralDocumentForm>['form'];
+export type UpdateGeneralDocumentFormType = ReturnType<typeof useUpdateGeneralDocumentForm>['form'];
 
-export function CreateGeneralDocumentForm({
+export function UpdateGeneralDocumentForm({
   isPreviewMode,
+  defaultValues,
   onDocumentPreviewCancel,
   onPreviewClick,
   onSuccess,
   onError,
   onCancel
-}: CreateGeneralDocumentFormProps) {
-  const mutation = useCreateGeneralDocumentMutation({
+}: UpdateGeneralDocumentFormProps) {
+  const mutation = useUpdateGeneralDocumentMutation({
+    id: defaultValues.id,
     onSuccess,
     onError
   });
-  const { form } = useCreateGeneralDocumentForm();
+  const { form } = useUpdateGeneralDocumentForm(defaultValues);
 
   const { isValid } = form.formState;
 
-  const onSubmit = (data: z.infer<typeof GeneralDocumentCreateSchema>) => {
-    mutation.mutate(data);
+  const onSubmit = (data: z.infer<typeof GeneralDocumentUpdateSchema>) => {
+    mutation.mutate({
+      ...data,
+      id: defaultValues.id
+    });
   };
 
   const markdownRendered = form.watch("rawContent");
@@ -68,10 +74,10 @@ export function CreateGeneralDocumentForm({
             </div>
             <DescriptionField className="mb-4" />
             <RawContentField />
-            <footer className="pt-5 border-t mt-4">
-              <AsyncButton icon={<Save />} isBusy={mutation.isPending} disabled={!isValid} className="w-full" type="submit">Save</AsyncButton>
-            </footer>
           </form>
+          <footer className="pt-5 border-t">
+            <AsyncButton icon={<Save />} isBusy={mutation.isPending} disabled={!isValid} className="w-full" type="submit">Save</AsyncButton>
+          </footer>
         </FormProvider>
       </div>
     </div>

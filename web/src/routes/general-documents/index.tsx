@@ -1,7 +1,6 @@
 import { GeneralDocumentsTable } from '@/components/general-documents/GeneralDocumentsTable';
 import { Button } from '@/components/ui/button';
-import { useGeneralDocumentsTable } from '@/hooks/general-documents';
-import { useGeneralDocumentsTableColumns } from '@/hooks/general-documents/useGeneralDocumentsTableColumns';
+import { useGeneralDocumentsTable, useGeneralDocumentsTableColumns } from '@/hooks/general-documents';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { Plus } from 'lucide-react';
 

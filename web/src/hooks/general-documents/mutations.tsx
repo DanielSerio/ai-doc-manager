@@ -1,8 +1,10 @@
 import { useTRPCClient } from "@/lib/api/trpc";
+import type { GeneralDocument } from "@/types";
+import type { MutationProps } from "@/types/mutation";
 import { useMutation } from "@tanstack/react-query";
 
 
-export const useCreateGeneralDocumentMutation = () => {
+export const useCreateGeneralDocumentMutation = ({ onSuccess, onError }: MutationProps<{ id: number; }>) => {
   const trpc = useTRPCClient();
 
   const mutationFn = trpc.generalDocuments.create.mutate;
@@ -12,12 +14,16 @@ export const useCreateGeneralDocumentMutation = () => {
     mutationFn: async (input: Parameters<typeof mutationFn>[0]) => {
       const data = await mutationFn(input);
 
-      return data;
-    }
+      return { id: data.id };
+    },
+    onSuccess,
+    onError
   });
 };
 
-export const useUpdateGeneralDocumentMutation = (id: number) => {
+type UpdateGeneralDocumentMutationProps = MutationProps<GeneralDocument> & { id: number; };
+
+export const useUpdateGeneralDocumentMutation = ({ id, onSuccess, onError }: UpdateGeneralDocumentMutationProps) => {
   const trpc = useTRPCClient();
 
   const mutationFn = trpc.generalDocuments.update.mutate;
@@ -28,11 +34,15 @@ export const useUpdateGeneralDocumentMutation = (id: number) => {
       const data = await mutationFn(input);
 
       return data;
-    }
+    },
+    onSuccess,
+    onError
   });
 };
 
-export const useDeleteGeneralDocumentMutation = (id: number) => {
+type DeleteGeneralDocumentMutationProps = MutationProps<void> & { id: number; };
+
+export const useDeleteGeneralDocumentMutation = ({ id, onSuccess, onError }: DeleteGeneralDocumentMutationProps) => {
   const trpc = useTRPCClient();
 
   const mutationFn = trpc.generalDocuments.delete.mutate;
@@ -43,6 +53,8 @@ export const useDeleteGeneralDocumentMutation = (id: number) => {
       const data = await mutationFn({ id });
 
       return data;
-    }
+    },
+    onSuccess,
+    onError
   });
 };

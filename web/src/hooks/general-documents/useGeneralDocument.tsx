@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 function isValidID(id: number | string) {
   if (typeof id === 'string') {
-    return id === 'new' || !isNaN(Number(id));
+    return !isNaN(Number(id));
   }
 
   return id !== null && id !== undefined;

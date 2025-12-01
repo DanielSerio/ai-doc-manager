@@ -2,10 +2,10 @@ import { MdDocumentPreview } from "@/components/feedback";
 import { AsyncButton } from "@/components/ui/async-button";
 import { Button } from "@/components/ui/button";
 import { useUpdateGeneralDocumentForm } from "@/hooks/general-documents";
-import { useUpdateGeneralDocumentMutation } from "@/hooks/general-documents/mutations";
+import { useDeleteGeneralDocumentMutation, useUpdateGeneralDocumentMutation } from "@/hooks/general-documents/mutations";
 import type { GeneralDocumentUpdateSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
-import { Save } from "lucide-react";
+import { Save, Trash } from "lucide-react";
 import { FormProvider } from "react-hook-form";
 import { z } from 'zod';
 import { NameField } from "./subcomponents/NameField";
@@ -37,6 +37,13 @@ export function UpdateGeneralDocumentForm({
   const mutation = useUpdateGeneralDocumentMutation({
     id: defaultValues.id,
     onSuccess,
+    onError
+  });
+  const deleteMutation = useDeleteGeneralDocumentMutation({
+    id: defaultValues.id,
+    onSuccess: () => {
+      onCancel();
+    },
     onError
   });
   const { form } = useUpdateGeneralDocumentForm(defaultValues);
@@ -73,10 +80,22 @@ export function UpdateGeneralDocumentForm({
             </div>
             <DescriptionField className="mb-4" />
             <RawContentField />
+            <footer className="pt-5 border-t flex flex-wrap gap-2">
+              <AsyncButton
+                variant="destructive"
+                icon={<Trash />}
+                isBusy={deleteMutation.isPending}
+                disabled={deleteMutation.isPending}
+                className="w-full md:w-auto"
+                onClick={() => deleteMutation.mutate()}>Delete</AsyncButton>
+              <AsyncButton
+                icon={<Save />}
+                isBusy={mutation.isPending}
+                disabled={!isValid}
+                className="w-full md:w-auto"
+                type="submit">Save</AsyncButton>
+            </footer>
           </form>
-          <footer className="pt-5 border-t">
-            <AsyncButton icon={<Save />} isBusy={mutation.isPending} disabled={!isValid} className="w-full" type="submit">Save</AsyncButton>
-          </footer>
         </FormProvider>
       </div>
     </div>

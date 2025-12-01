@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 import { Save } from "lucide-react";
 import { FormProvider } from "react-hook-form";
 import { z } from 'zod';
+import { NameField } from "./subcomponents/NameField";
+import { PathField } from "./subcomponents/PathField";
+import { DescriptionField } from "./subcomponents/DescriptionField";
+import { RawContentField } from "./subcomponents/RawContentField";
 
 export interface CreateGeneralDocumentFormProps {
   isPreviewMode?: boolean;
@@ -44,21 +48,26 @@ export function CreateGeneralDocumentForm({
 
 
   return (
-    <div>
+    <div className="flex flex-col p-4">
       {isPreviewMode && (
         <MdDocumentPreview
           onCancel={onDocumentPreviewCancel}
           markdown={markdownRendered}
         />
       )}
-      <div className={cn(isPreviewMode ? "hidden" : "")}>
+      <div className={cn(isPreviewMode ? "hidden" : "w-full max-w-[640px] mx-auto")}>
         <FormProvider {...form}>
-          <div className="px-4 py-2 flex items-center justify-end gap-x-2">
+          <div className="py-2 flex items-center justify-end gap-x-2">
             <Button size="sm" variant="outline" onClick={onCancel}>Cancel</Button>
             <Button size="sm" variant="outline" onClick={onPreviewClick}>Preview</Button>
           </div>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div>Create General Document</div>
+          <form className="mb-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="flex gap-x-2 mb-4">
+              <NameField />
+              <PathField />
+            </div>
+            <DescriptionField className="mb-4" />
+            <RawContentField />
           </form>
           <footer className="pt-5 border-t">
             <AsyncButton icon={<Save />} isBusy={mutation.isPending} disabled={!isValid} className="w-full" type="submit">Save</AsyncButton>
